@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src *; child-src * 'self' blob: http:;
+img-src * 'self' data: http:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+style-src 'self' 'unsafe-inline' *">
+    <title>socket_test</title>
+</head>
+<body>
+hello world!
+<br>
+[[${userId}]]
+<br>
+<form>
+    <input type="text" id="inputId">
+    <button type="button" class="button" onclick="send()" >
+</form>
+</body>
+<style>
+    .button {
+        /**
+         Green
+          */
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+<script>
+    let socket;
+    let userId = [[${userId}]];
+    if (typeof (WebSocket) == "undefined") {
+        console.log("您的浏览器不支持WebSocket");
+    } else {
+        console.log("您的浏览器支持WebSocket");
+        //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+        socket = new WebSocket("ws://localhost:9998/websocket/" + [[${userId}]]);
+        // 打开事件
+        socket.onopen = function () {
+            console.log("Socket 已打开");
+            socket.send("这是来自客户端的消息" + userId);
+        };
+        // 绑定收到消息事件
+        socket.onmessage = function (msg) {
+            console.log(msg.data);
+            // 处理前端触发逻辑
+        };
+        //关闭事件
+        socket.onclose = function () {
+            console.log("Socket已关闭");
+        };
+        // 发生了错误事件
+        socket.onerror = function () {
+            alert("Socket发生了错误");
+            // 此时可以尝试刷新页面
+        }
+    }
+
+    function send() {
+        let a = document.getElementById("inputId").value;
+        socket.send(a);
+    }
+</script>
+</html>

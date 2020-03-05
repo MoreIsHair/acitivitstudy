@@ -1,0 +1,99 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  activiti:
+    db-history-used: true
+    history-level: full
+    check-process-definitions: false
+    database-schema-update: false
+  application:
+    name: activiti
+  datasource:
+    druid:
+      url: jdbc:mysql://localhost:3306/aiclouddesgin?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&allowMultiQueries=true&useSSL=false
+      username: root
+      password: 1234
+      initial-size: 1
+      max-active: 20
+  servlet:
+    multipart:
+      # 上传文件总的最大值
+      max-request-size: 20MB
+      # 单个文件的最大值
+      max-file-size: 20MB
+      enabled: true
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+
+
+
+mybatis:
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+#pagehelper分页插件配置
+#pagehelper:
+#  helperDialect: mysql
+#  reasonable: true
+#  supportMethodsArguments: true
+#  pageSizeZero: true
+#  params: count=countSql
+
+
+#是否启用swagger
+swagger:
+  enabled: true
+
+server:
+  tomcat:
+    uri-encoding: UTF-8
+  port: 9997
+logging:
+  path: ./logs/dev
+ignore:
+  urls:
+    - /
+    - /error
+    - /favicon.ico
+    - /**/*swagger*/**
+    - /v2/api-docs
+    - /csrf
+    - /actuator/**
+    - /hystrix.sender
+    - /v1/sms/**
+    - /v1/user/findUserByIdentifier/**
+    - /v1/tenant/findTenantByTenantCode/**
+    - /v1/user/checkExist/**
+    - /v1/user/updatePassword
+    - /v1/menu/findMenuByRole/**
+    - /v1/menu/findAllMenu
+    - /v1/code/**
+    - /v1/attachment/download
+    - /v1/log/**
+    - /authentication/**
+    - /v1/authentication/**
+    - /**/*.css
+    - /**/*.js
+    - /social
+    - /signin
+    - /signup
+    - /info
+    - /health
+    - /metrics/**
+    - /loggers/**
+#mybatis-plus:
+#  mapper-locations: classpath*:mapper/*Mapper.xml
+#  configuration:
+#    cache-enabled: true
+#    map-underscore-to-camel-case: true
+#  global-config:
+#    db-config:
+#      id-type: auto
+#      table-underline: true
